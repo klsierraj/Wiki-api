@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
 
 function App() {
+
+  const [search, setSearch] = useState('');
+  const [names, setNames] = useState ([]);
+
+
+  async function realizarBusqueda() {
+    https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Ccategories&generator=allpages&formatversion=2&gapfrom=Ba&gaplimit=3
+    const url = `https://en.wikipedia.org/w/api.phpaction=opensearch&search=​${search}&format=json&origin=*`;
+    const response = await fetch(url);
+    const jsonRes= await response.json();
+    
+
+    setNames(jsonRes[1]);
+    
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3>Buscar wikipedia</h3>
+      <input value={search} onChange={e => setSearch(e.target.value)}/>
+      <button onClick={realizarBusqueda}>Buscar</button>
+
+      {names.map(value => <div>{value} </div>)}
     </div>
   );
 }
